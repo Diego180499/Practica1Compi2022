@@ -1,0 +1,87 @@
+<TextView
+       android:id="@+id/labelCantidadPie"
+       android:layout_width="81dp"
+       android:layout_height="22dp"
+       android:layout_marginEnd="68dp"
+       android:layout_marginBottom="428dp"
+       android:text="--"
+       android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent" />
+
+   <TextView
+       android:id="@+id/labelBarra"
+       android:layout_width="178dp"
+       android:layout_height="28dp"
+       android:layout_marginEnd="180dp"
+       android:layout_marginBottom="524dp"
+       android:text="Cantidad Graficas de Barra:"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent" />
+
+   <TextView
+       android:id="@+id/textView"
+       android:layout_width="151dp"
+       android:layout_height="33dp"
+       android:layout_marginEnd="116dp"
+       android:layout_marginBottom="624dp"
+       android:text="REPORTES"
+       android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent" />
+
+   <TextView
+       android:id="@+id/labelPie"
+       android:layout_width="166dp"
+       android:layout_height="30dp"
+       android:layout_marginEnd="192dp"
+       android:layout_marginBottom="428dp"
+       android:text="Cantidad Graficas de Pie:"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent" />
+
+   <TextView
+       android:id="@+id/labelCantidadBarra"
+       android:layout_width="81dp"
+       android:layout_height="22dp"
+       android:layout_marginEnd="84dp"
+       android:layout_marginBottom="528dp"
+       android:text="--"
+       android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent" />
+
+   <TextView
+       android:id="@+id/textView10"
+       android:layout_width="101dp"
+       android:layout_height="23dp"
+       android:layout_marginEnd="168dp"
+       android:layout_marginBottom="4dp"
+       android:text="E R R O R E S"
+       android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+       app:layout_constraintBottom_toTopOf="@+id/textoErrores"
+       app:layout_constraintEnd_toEndOf="parent" />
+
+   <EditText
+       android:id="@+id/textoErrores"
+       android:layout_width="308dp"
+       android:layout_height="153dp"
+       android:layout_marginEnd="52dp"
+       android:layout_marginBottom="196dp"
+       android:ems="10"
+       android:gravity="start|top"
+       android:hint="Sin Errores"
+       android:inputType="textMultiLine"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent" />
+
+   <Button
+       android:id="@+id/button"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginEnd="141dp"
+       android:layout_marginBottom="89dp"
+       android:onClick="regresar"
+       android:text="Regresar"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent" />

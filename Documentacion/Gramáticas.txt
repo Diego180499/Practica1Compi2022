@@ -1,0 +1,129 @@
+package codigo;
+
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+terminal  Coma,DEF,Nombre,BARRAS,PIE,Numero,Identificador,Titulo, ejeX,ejeY, Etiqueta,Ejecutar,
+    Extra,Total,Valores,Unir,Tipo,Cantidad, Porcentaje, P_coma,Igual,Suma,Resta,Multiplicacion,
+    Division,Parentesis_a,Parentesis_c,Llaves_a,Llaves_c,Corchete_a,Corchete_c,Dos_p,Espacio,Vacio, ERROR;
+
+non terminal G, B, T, X, Y, U, N, M, A, Q, C, L, V, R, S, E, I, P, F, O;
+
+start with G;
+
+          //ESTRUCTURAS
+//Estructura General
+G ::= B
+      | P
+      | B G
+      | P G
+      | EJECUTAR
+;
+
+//Para gráfica de BARRA:
+
+B ::= DEF BARRAS Llaves_a T X Y U Llaves_c
+;
+
+
+T ::= Titulo Dos_p Nombre P_coma
+;
+
+X ::= ejeX Dos_p Corchete_a N Corchete_c  P_coma
+ ;
+
+N ::= Nombre
+     | Nombre Coma N
+;
+
+Y ::= ejeY Dos_p Corchete_a M Corchete_c P_coma
+;
+
+M ::= EXPRESION
+      | EXPRESION Coma M
+;
+
+U ::= Unir Dos_p Corchete_a A Corchete_c P_coma
+;
+
+A ::= Llaves_a EXPRESION Coma EXPRESION Llaves_c
+      | Llaves_a S1 Coma S1 Llaves_c Coma A
+;
+
+//Estructuras para Grafica de PIE;
+
+P ::= DEF PIE Llaves_a Q C Llaves_c
+;
+
+Q ::= Titulo Dos_p Nombre P_coma
+;
+
+C ::= Tipo Dos_p Cantidad P_coma L V R S E | Tipo Dos_p Porcentaje P_coma L V S E
+;
+
+L ::= Etiqueta Dos_p Corchete_a I Corchete_c P_coma
+;
+
+I ::= Nombre | Nombre Coma I
+;
+
+V ::= Valores Dos_p Corchete_a F Corchete_c P_coma
+;
+
+F ::= EXPRESION | EXPRESION Coma F
+;
+
+R ::= Total Dos_p EXPRESION P_coma
+;
+
+S ::= Unir Dos_p Corchete_a O Corchete_c P_coma
+;
+
+O ::= Llaves_a EXPRESION Coma EXPRESION Llaves_c | Llaves_a EXPRESION Coma S1 Llaves_c Coma O
+;
+
+E ::= Extra Dos_p Nombre P_coma
+;
+
+
+//**********EXPRESION*******
+EXPRESION ::= S1
+;
+
+S1 ::= Numero S2 | Parentesis_a S1 S6 S2 | Numero | Decimal S2 | Decimal | Parentesis_a S1 S6
+;
+
+S2 ::= Multiplicacion S4 S3 | Division S4 S3 | Suma S1 | Resta S1 | Division S1 | Multiplicacion S1
+;
+
+S3 ::= Suma S1 | Resta S1
+;
+
+S4 ::= Parentesis_a S1 S6 S5
+;
+
+S5 ::= Division S4
+;
+
+S6 ::= Parentesis_c
+;
+
+EJECUTAR ::= Ejecutar Parentesis_a Nombre Parentesis_c P_coma
+            | Ejecutar Parentesis_a Nombre Parentesis_c P_coma EJECUTAR
+;
+
+//Definiendo una variable
+D1 ::= DEFINIR Identificador Igual S1 P_coma
+;

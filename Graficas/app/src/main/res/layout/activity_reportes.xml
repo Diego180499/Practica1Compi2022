@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReportesActivity">
+
+    <TextView
+        android:id="@+id/labelCantidadPie"
+        android:layout_width="81dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="432dp"
+        android:text="--"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/labelBarra"
+        android:layout_width="201dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="528dp"
+        android:text="Cantidad Graficas de Barra:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="151dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="588dp"
+        android:text="REPORTES"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/labelPie"
+        android:layout_width="193dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="428dp"
+        android:text="Cantidad Graficas de Pie:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/labelCantidadBarra"
+        android:layout_width="81dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="536dp"
+        android:text="--"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="101dp"
+        android:layout_height="23dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="48dp"
+        android:text="E R R O R E S"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintBottom_toTopOf="@+id/textoErrores"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/textoErrores"
+        android:layout_width="307dp"
+        android:layout_height="101dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="260dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Sin Errores"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="182dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/design_default_color_error"
+        android:fontFamily="sans-serif-black"
+        android:text="Graficas Definidas"
+        app:layout_constraintBottom_toTopOf="@+id/textoGraficasDefinidas"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/textoGraficasDefinidas"
+        android:layout_width="303dp"
+        android:layout_height="121dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="94dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="178dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="regresar"
+        android:text="Regresar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

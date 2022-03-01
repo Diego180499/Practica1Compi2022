@@ -1,0 +1,329 @@
+package codigo;
+
+import java_cup.runtime.Symbol;
+import java.util.ArrayList;
+
+parser code
+{:
+    public Sintax(LexerCup lexer){
+            super(lexer);
+    }
+    private Symbol s;
+    private static int cantidadExpresiones = 0;
+    private static int cantidadBarras = 0;
+    private static int cantidadPie = 0;
+    private static ArrayList<GraficaBarra> graficasBarra = new ArrayList<>();
+    private static ArrayList<GraficaPie> graficasPie = new ArrayList<>();
+    private static String [] graficasEjecutadas;
+    
+
+    //*****ESTE MÉTODO ES PARA CREAR UNA GRÁFICA DE BARRAS, Y LA GUARDA EN UN ARRAY DE GRAFICAS DE BARRAS*****
+
+
+    public void crearGraficaBarra(String titulo, String ejex, String ejey, String union){
+        AnalizadorExpresiones analizadorExpresiones = new AnalizadorExpresiones();
+        String[] ejeX = ejex.split(",");
+        String[] ejeY = ejey.split(",");
+        String [] uniones = union.split(",");
+        
+        
+        Double[] valoresEjeY = new Double[ejeY.length];
+        for(int i=0; i<valoresEjeY.length; i++){
+           Double valor;
+            try {
+                valor = analizadorExpresiones.evaluar(ejeY[i]);
+                valoresEjeY[i] = valor;
+            } catch (Excepciones ex) {
+                Logger.getLogger(Sintax.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        //Aqui iniciamos a crear nuestra matriz de uniones*********
+        Double [] valoresUniones = new Double[uniones.length];
+        
+        for(int i=0; i< valoresUniones.length; i++){
+             double valor;
+            try {
+                valor = analizadorExpresiones.evaluar(uniones[i]);
+                valoresUniones[i] = valor;
+            } catch (Excepciones ex) {
+                Logger.getLogger(Sintax.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        ArrayList<Double[]> valoresUnion = new ArrayList<>();
+
+        for(int i=0; i<valoresUniones.length; i+=2){
+            Double [] item = new Double[2];
+            item[0] = valoresUniones[i];
+            item[1] = valoresUniones[i+1];
+            valoresUnion.add(item);
+        }
+        //Finalizamos la matriz********
+
+
+        GraficaBarra graficaBarra = new GraficaBarra(titulo, ejeX, valoresEjeY, valoresUnion);
+        graficasBarra.add(graficaBarra);
+        
+    }
+
+    //***ESTE MÉTODO ES PARA CREAR GRÁFICAS DE PIE***
+    
+    public void crearGraficaPie(String titulo, String tipo, String etiqueta, String valor, String total, String union, String extra){
+        
+        AnalizadorExpresiones analizadorExpresiones = new AnalizadorExpresiones();
+        String [] etiquetas = etiqueta.split(",");
+        String [] valores = valor.split(",");
+        String [] uniones = union.split(",");
+        Double [] uniones2 = new Double[uniones.length];
+        Double [] valorValores = new Double[valores.length];
+        ArrayList<Double[]> valorUniones = new ArrayList<>();
+
+        for(int i=0; i<valores.length; i++){
+             Double valor2;
+            try {
+                valor2 = analizadorExpresiones.evaluar(valores[i]);
+                valorValores[i] = valor2;
+            } catch (Excepciones ex) {
+                Logger.getLogger(Sintax.class.getName()).log(Level.SEVERE, null, ex);
+            }   
+        }
+
+        for(int i=0; i<uniones.length; i++){
+            double valor2;
+            try {
+                valor2 = analizadorExpresiones.evaluar(uniones[i]);
+                uniones2[i] = valor2;
+            } catch (Excepciones ex) {
+                Logger.getLogger(Sintax.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        for(int i=0; i<uniones2.length; i+=2){
+            Double [] arrayUniones = new Double[2];
+            arrayUniones[0] = uniones2[i];
+            arrayUniones[1] = uniones2[i+1];
+            valorUniones.add(arrayUniones);
+        }
+        
+        GraficaPie graficaPie;
+        if(tipo.equals("Porcentaje")){
+            graficaPie = new GraficaPie(titulo, tipo, etiquetas, valorValores, valorUniones, extra);
+            graficasPie.add(graficaPie);
+        }else{
+              Double valorTotal;
+            try {
+                valorTotal = analizadorExpresiones.evaluar(total);
+                graficaPie = new GraficaPie(titulo, tipo, etiquetas, valorValores, valorTotal, valorUniones, extra);
+             graficasPie.add(graficaPie);
+            } catch (Excepciones ex) {
+                Logger.getLogger(Sintax.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }   
+    }
+
+    public static void addGraficaEjecutada(String nombresGraficas){
+        graficasEjecutadas = nombresGraficas.split(",");
+    }
+
+    public static String[] getGraficasEjecutadas(){
+        return graficasEjecutadas;
+    }
+    
+    public static ArrayList<GraficaBarra> getGraficaBarras(){
+
+        return graficasBarra;
+    }
+
+    public void contarExpresion(){
+        cantidadExpresiones++;
+    }
+    
+    public void contarBarras(){
+        cantidadBarras++;
+    }
+
+    public void contarPie(){
+        cantidadPie++;
+    }
+
+    public static Integer getCantidadExpresiones(){
+        return cantidadExpresiones;
+    }
+
+    public static Integer getCantidadBarras(){
+        return cantidadBarras;
+    }
+
+    public static Integer getCantidadPie(){
+        return cantidadPie;
+    }
+
+    public static ArrayList<GraficaPie> getGraficasPie(){
+        return graficasPie;
+    }
+    
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+terminal  DEF,DEFINIR,BARRAS,PIE, Identificador,Titulo, ejeX,ejeY, Etiqueta,
+    Extra,Total,Valores,Unir,Tipo, P_coma,Igual,
+    Corchete_a,Corchete_c,Dos_p,Espacio,Vacio, ERROR;
+
+terminal String Nombre;
+terminal String Decimal;
+terminal String Coma;
+terminal String Numero;
+terminal String Suma;
+terminal String Resta;
+terminal String Division;
+terminal String Multiplicacion;
+terminal String Parentesis_a;
+terminal String Parentesis_c;
+terminal String Llaves_a;
+terminal String Llaves_c;
+terminal String Cantidad;
+terminal String Porcentaje;
+terminal String Ejecutar;
+
+
+
+
+non terminal G1, G, B, P, D1;
+non terminal String S1;
+non terminal String S2;
+non terminal String  N;
+non terminal String T;
+non terminal String X;
+non terminal String Y;
+non terminal String M;
+non terminal String U;
+non terminal String EXPRESION;
+non terminal String A;
+non terminal String Q;
+non terminal String L;
+non terminal String I;
+non terminal String V;
+non terminal String F;
+non terminal String R;
+non terminal String O;
+non terminal String S;
+non terminal String E;
+non terminal String EJECUTAR;
+
+
+start with G1;
+
+          //ESTRUCTURAS
+//Estructura General
+
+G1 ::= D1 G EJECUTAR:e {: addGraficaEjecutada(e); :}
+       | G EJECUTAR:e    {: addGraficaEjecutada(e); :}
+;
+
+G ::= B         {: contarBarras(); :}
+      | P       {: contarPie(); :}
+      | B G     {: contarBarras(); :}
+      | P G     {: contarPie(); :}
+;
+
+//Para gráfica de BARRA:
+
+B ::= DEF BARRAS Llaves_a T:t X:x Y:y U:u Llaves_c  {: crearGraficaBarra(t,x,y,u); :} 
+;
+
+
+T ::= Titulo Dos_p Nombre:n P_coma {: RESULT = String.format(n);:}
+;
+
+X ::= ejeX Dos_p Corchete_a N:items Corchete_c  P_coma {: RESULT = String.format(items);  :}
+ ;
+
+N ::= Nombre:item   {: RESULT = String.format(item);  :}
+     | Nombre:item Coma:coma N:items {: RESULT = String.format(item+coma+items);   :}
+;
+
+Y ::= ejeY Dos_p Corchete_a M:m Corchete_c P_coma {: RESULT = String.format(m);  :}
+;
+
+M ::= EXPRESION:expresion  {:  RESULT = String.format(expresion); :}
+      | EXPRESION:expresion Coma:coma M:m  {: RESULT = String.format(expresion+coma+m);  :}
+;
+
+U ::= Unir Dos_p Corchete_a A:a Corchete_c P_coma {: RESULT = String.format(a); :}
+;
+
+A ::= Llaves_a:lla EXPRESION:expresion Coma:coma EXPRESION:expresion2 Llaves_c:llc  {: RESULT = String.format(expresion+coma+expresion2); :}
+      | Llaves_a:lla EXPRESION:expresion Coma:coma EXPRESION:expresion2 Llaves_c:llc Coma:coma2 A:a   {: RESULT = String.format(expresion+coma+expresion2+coma2+a); :}
+;
+
+//Estructuras para Grafica de PIE;
+
+P ::= DEF PIE Llaves_a Q:q Tipo Dos_p Cantidad:c P_coma L:l V:v R:r S:s E:e Llaves_c  {: crearGraficaPie(q,c,l,v,r,s,e)  ;  :}
+      | DEF PIE Llaves_a Q:q Tipo Dos_p Porcentaje:p P_coma L:l V:v S:s E:e Llaves_c  {: crearGraficaPie(q,p,l,v,v,s,e);  :}
+;
+
+Q ::= Titulo Dos_p Nombre:n P_coma {: RESULT = String.format(n); :}
+;
+
+L ::= Etiqueta Dos_p Corchete_a I:i Corchete_c P_coma {: RESULT = String.format(i); :}
+;
+
+I ::= Nombre:n   {: RESULT = String.format(n);  :} 
+      | Nombre:n Coma:coma I:i   {: RESULT = String.format(n+coma+i);  :} 
+;
+
+V ::= Valores Dos_p Corchete_a F:f Corchete_c P_coma {: RESULT = String.format(f); :}
+;
+
+F ::= EXPRESION:expresion   {: RESULT = String.format(expresion); :} 
+      | EXPRESION:expresion Coma:coma F:f    {: RESULT = String.format(expresion+coma+f); :}
+;
+
+R ::= Total Dos_p EXPRESION:expresion P_coma {: RESULT = String.format(expresion); :}
+;
+
+S ::= Unir Dos_p Corchete_a O:o Corchete_c P_coma {: RESULT = String.format(o); :}
+;
+
+O ::= Llaves_a EXPRESION:expresion Coma:coma EXPRESION:expresion2 Llaves_c    {: RESULT = String.format(expresion+coma+expresion2); :}
+      | Llaves_a EXPRESION:expresion Coma:coma EXPRESION:expresion2 Llaves_c Coma:coma2 O:o  {: RESULT = String.format(expresion+coma+expresion2+coma2+o); :}
+;
+
+E ::= Extra Dos_p Nombre:n P_coma {: RESULT = String.format(n); :}
+;
+
+
+//**********EXPRESION*******
+EXPRESION ::= S1:expresion {: contarExpresion(); RESULT = String.format(expresion);  :}
+;
+
+S1 ::= Numero:numero S2:s2  {: RESULT = String.format(numero + s2); :}
+       | Parentesis_a:pa S1:s1 Parentesis_c S2:s2  {: RESULT = String.format(pa + s1 + s2 ); :} 
+       | Numero:num        {: RESULT = String.format(num); :}
+       | Decimal:decimal S2:s2        {: RESULT = String.format(decimal + s2); :}
+       | Decimal:decimal              {: RESULT = String.format(decimal); :}
+       | Parentesis_a:pa S1:s1 Parentesis_c:pc  {: RESULT = String.format(pa + s1 + pc); :}
+;
+
+S2 ::=  Suma:suma S1:s1 {: RESULT = String.format(suma + s1); :} 
+        | Resta:resta S1:s1      {: RESULT = String.format(resta + s1);  :}
+        | Division:div S1:s1          {: RESULT = String.format(div + s1);  :}
+        | Multiplicacion:mult S1:s1   {: RESULT = String.format(mult + s1);  :}
+;
+
+
+EJECUTAR ::= Ejecutar Parentesis_a Nombre:n Parentesis_c P_coma    {: RESULT = String.format(n); :}
+            | Ejecutar Parentesis_a Nombre:n Parentesis_c P_coma EJECUTAR:ej   {: RESULT = String.format(n+","+ej); :}
+;
+
+
+//Definiendo una variable
+D1 ::= DEFINIR Identificador Igual S1 P_coma | DEFINIR Identificador Igual S1 P_coma D1
+;
